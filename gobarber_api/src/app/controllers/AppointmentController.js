@@ -65,6 +65,12 @@ class AppointmentController {
         .json({ error: 'You can only create appointments with providers' });
     }
 
+    if (provider_id === req.userId) {
+      return res
+        .status(401)
+        .json({ error: `You can't schedule an appointment for yourself` });
+    }
+
     const hourStart = startOfHour(parseISO(date));
 
     /**
@@ -108,10 +114,14 @@ class AppointmentController {
       { locale: pt }
     );
 
-    await Notification.create({
-      content: `Novo agendamente de ${user.name} para ${formattedDate}`,
-      user: provider_id,
-    });
+    try {
+      await Notification.create({
+        content: `Novo agendamente de ${user.name} para ${formattedDate}`,
+        user: provider_id,
+      });
+    } catch (e) {
+      console.log(e);
+    }
 
     return res.json(appointment);
   }
