@@ -1,22 +1,7 @@
 import React from 'react';
 import './App.css';
 import Header from './components/Header';
-
-function Post({ data }) {
-  return (
-    <div
-      style={{
-        width: 700,
-        height: 250,
-        backgroundColor: 'red',
-        marginTop: 16,
-        marginBottom: 16,
-      }}
-    >
-      <p>Oi</p>
-    </div>
-  );
-}
+import Post from './components/Post';
 
 function PostList() {
   const posts = [
@@ -24,7 +9,7 @@ function PostList() {
       id: 1,
       author: {
         name: 'Julio Alcantara',
-        avatar: 'http://url-da-imagem.com/imagem.jpg',
+        avatar: 'https://i.ya-webdesign.com/images/circle-avatar-png-4.png',
       },
       date: '04 Jun 2019',
       content: 'Pessoal, alguém sabe se a Rocketseat está contratando?',
@@ -33,15 +18,11 @@ function PostList() {
           id: 1,
           author: {
             name: 'Diego Fernandes',
-            avatar: 'http://url-da-imagem.com/imagem.jpg',
+            avatar: 'https://brentmanke.com/wp-content/uploads/2013/01/avatar-2015-circle-260.png',
           },
           content: 'Conteúdo do comentário',
         },
       ],
-    },
-    {
-      id: 2,
-      // Restante dos dados de um novo post
     },
   ];
 
@@ -56,7 +37,7 @@ function PostList() {
       }}
     >
       {posts.map((post, i) => (
-        <Post key={i} data={post} />
+        <Post key={i} post={post} />
       ))}
     </div>
   );
