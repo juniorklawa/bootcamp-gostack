@@ -1,0 +1,8 @@
+{
+  "name": "bootcamp-modules",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/juniorklawa/bootcamp-modules",
+  "author": "Everaldo Junior BB-8 <juniorklawa10@gmail.com>",
+  "license": "MIT"
+}
