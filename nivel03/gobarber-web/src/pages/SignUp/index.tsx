@@ -1,13 +1,14 @@
-import React, { useCallback, useRef } from 'react';
-import { FiMail, FiLock, FiUser, FiArrowLeft } from 'react-icons/fi';
-import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import React, { useCallback, useRef } from 'react';
+import { FiArrowLeft, FiLock, FiMail, FiUser } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import logoImg from '../../assets/logo.svg';
-import { Background, Container, Content } from './styles';
-import Input from '../../component/Input';
 import Button from '../../component/Button';
+import Input from '../../component/Input';
 import getValidationErrors from '../../utils/getValidationErrors';
+import { Background, Container, Content, AnimationContainer } from './styles';
 
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
@@ -31,26 +32,34 @@ const SignUp: React.FC = () => {
   return (
     <Container>
       <Background />
+
       <Content>
-        <img src={logoImg} alt="GoBarber" />
+        <AnimationContainer>
+          <img src={logoImg} alt="GoBarber" />
 
-        <Form ref={formRef} onSubmit={handleSubmitt}>
-          <h1>Faça seu cadastro</h1>
-          <Input icon={FiUser} name="name" placeholder="Nome" type="text" />
-          <Input icon={FiMail} name="email" placeholder="E-mail" type="text" />
-          <Input
-            icon={FiLock}
-            name="password"
-            placeholder="Senha"
-            type="password"
-          />
-          <Button type="submit">Cadastrar</Button>
-        </Form>
+          <Form ref={formRef} onSubmit={handleSubmitt}>
+            <h1>Faça seu cadastro</h1>
+            <Input icon={FiUser} name="name" placeholder="Nome" type="text" />
+            <Input
+              icon={FiMail}
+              name="email"
+              placeholder="E-mail"
+              type="text"
+            />
+            <Input
+              icon={FiLock}
+              name="password"
+              placeholder="Senha"
+              type="password"
+            />
+            <Button type="submit">Cadastrar</Button>
+          </Form>
 
-        <a href="create">
-          <FiArrowLeft />
-          Voltar para logon
-        </a>
+          <Link to="/">
+            <FiArrowLeft />
+            Voltar para logon
+          </Link>
+        </AnimationContainer>
       </Content>
     </Container>
   );

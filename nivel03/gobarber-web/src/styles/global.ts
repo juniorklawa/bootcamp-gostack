@@ -24,7 +24,7 @@ export default createGlobalStyle`
   }
 
   button {
-    cursor: ponter
+    cursor: pointer
   }
 
 `;
