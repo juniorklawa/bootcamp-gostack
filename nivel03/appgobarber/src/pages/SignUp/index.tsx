@@ -35,8 +35,8 @@ const SignUp: React.FC = () => {
             </View>
             <Form ref={formRef} onSubmit={() => {}}>
               <Input
-                autoCorrect={false}
-                autoCapitalize="none"
+                autoCorrect={true}
+                autoCapitalize="words"
                 name="name"
                 icon="user"
                 placeholder="Nome"
@@ -54,6 +54,10 @@ const SignUp: React.FC = () => {
                 name="password"
                 icon="lock"
                 placeholder="Senha"
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
               />
             </Form>
             <Button onPress={() => formRef.current?.submitForm()}>
