@@ -48,13 +48,11 @@ const SignIn: React.FC = () => {
             .email('Digite um e-mail válido'),
           password: Yup.string().required('Senha obrigatória'),
         });
-
         await schema.validate(data, { abortEarly: false });
         await signIn({
           email: data.email,
           password: data.password,
         });
-
         console.log(user);
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
@@ -62,7 +60,6 @@ const SignIn: React.FC = () => {
           formRef.current?.setErrors(errors);
           return;
         }
-
         Alert.alert(
           'Erro na autenticação',
           'Ocorreu um erro ao fazer login, cheque as credenciais.',
