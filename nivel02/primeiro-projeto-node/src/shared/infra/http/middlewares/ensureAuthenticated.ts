@@ -1,8 +1,7 @@
-import { Request, NextFunction, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
-import authConfig from '../config/auth';
-
-import AppError from '../errors/AppError';
+import authConfig from '../../../../config/auth';
+import AppError from '../../../errors/AppError';
 
 interface TokenPayLoad {
   iat: number;
@@ -26,7 +25,7 @@ export default function ensureAuthenticated(
   const [, token] = authHeader.split(' ');
   try {
     const decoded = verify(token, authConfig.jwt.secret);
-    const { sub, exp, iat } = decoded as TokenPayLoad;
+    const { sub } = decoded as TokenPayLoad;
 
     request.user = {
       id: sub,
