@@ -3,7 +3,7 @@ import 'express-async-errors';
 import 'reflect-metadata';
 import uploadConfig from '../../../config/upload';
 import AppError from '../../errors/AppError';
-import '../typeorm';
+import 'shared/infra/typeorm';
 import routes from './routes';
 
 const app = express();
