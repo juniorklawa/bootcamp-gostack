@@ -1,12 +1,17 @@
 import AppError from '../../../shared/errors/AppError';
-import FakeHashProvider from '../../users/providers/HashProvider/fakes/FakeHashProvider';
-import FakeUsersRepository from '../../users/repositories/fakes/FakeUsersRepository';
-import CreateUsersService from '../../users/services/CreateUserService';
+
+import FakeNotificationsRepository from '../../../modules/notifications/repositories/fakes/FakeNotificationsRepository';
+import FakeCacheProvider from '../../../shared/container/providers/CacheProvider/fakes/FakeCacheProvider';
+import FakeHashProvider from '../../../modules/users/providers/HashProvider/fakes/FakeHashProvider';
+import FakeUsersRepository from '../../../modules/users/repositories/fakes/FakeUsersRepository';
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import CreateAppointmentService from './CreateAppointmentService';
+import CreateUsersService from '../../users/services/CreateUserService';
 
+let fakeNotificationsRepository: FakeNotificationsRepository;
 let fakeAppointmentsRepository: FakeAppointmentsRepository;
 let fakeUsersRepository: FakeUsersRepository;
+let fakeCacheProvider: FakeCacheProvider;
 let fakeHashProvider: FakeHashProvider;
 
 let createAppointment: CreateAppointmentService;
@@ -17,13 +22,21 @@ describe('CreateAppointment', () => {
     fakeAppointmentsRepository = new FakeAppointmentsRepository();
     fakeUsersRepository = new FakeUsersRepository();
     fakeHashProvider = new FakeHashProvider();
+    fakeCacheProvider = new FakeCacheProvider();
+    fakeNotificationsRepository = new FakeNotificationsRepository();
 
     createAppointment = new CreateAppointmentService(
       fakeAppointmentsRepository,
       fakeUsersRepository,
+      fakeNotificationsRepository,
+      fakeCacheProvider,
     );
 
-    createUser = new CreateUsersService(fakeUsersRepository, fakeHashProvider);
+    createUser = new CreateUsersService(
+      fakeUsersRepository,
+      fakeHashProvider,
+      fakeCacheProvider,
+    );
   });
 
   it('should be able to create a new appointment', async () => {

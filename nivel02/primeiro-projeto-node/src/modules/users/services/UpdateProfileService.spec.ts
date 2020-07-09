@@ -86,7 +86,7 @@ describe('UpdateProfile', () => {
     expect(updatedUser.password).toBe('123123');
   });
 
-  it('should not be able to update the password if does not pass the old password', async () => {
+  it('should not be able to update the password if does not pass the old_password', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Doe',
       email: 'johndoe@example.com',

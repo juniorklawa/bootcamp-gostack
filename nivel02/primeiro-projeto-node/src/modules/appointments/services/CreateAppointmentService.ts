@@ -1,9 +1,14 @@
-import { getHours, isBefore, startOfHour } from 'date-fns';
-import IUsersRepository from 'modules/users/repositories/IUsersRepository';
-import { inject, injectable } from 'tsyringe';
+import { startOfHour, isBefore, getHours, format } from 'date-fns';
+import { injectable, inject } from 'tsyringe';
+
 import AppError from '../../../shared/errors/AppError';
+
+import ICacheProvider from '../../../shared/container/providers/CacheProvider/models/ICacheProvider';
+import IAppointmentRepository from '../../../modules/appointments/repositories/IAppointmentsRepository';
+import IUsersRepository from '../../../modules/users/repositories/IUsersRepository';
+import INotificationsRepository from '../../../modules/notifications/repositories/INotificationsRepository';
+
 import Appointment from '../infra/typeorm/entities/Appointment';
-import IAppointmentsRepository from '../repositories/IAppointementsRepository';
 
 interface IRequest {
   provider_id: string;
@@ -15,10 +20,16 @@ interface IRequest {
 class CreateAppointmentService {
   constructor(
     @inject('AppointmentsRepository')
-    private appointmentsRepository: IAppointmentsRepository,
+    private appointmentsRepository: IAppointmentRepository,
 
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
+
+    @inject('NotificationsRepository')
+    private notificationsRepository: INotificationsRepository,
+
+    @inject('CacheProvider')
+    private cacheProvider: ICacheProvider,
   ) {}
 
   public async execute({
@@ -59,19 +70,19 @@ class CreateAppointmentService {
       date: appointmentDate,
     });
 
-    // const formattedDate = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
+    const formattedDate = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
 
-    // await this.notificationsRepository.create({
-    //   recipient_id: provider_id,
-    //   content: `Novo agendamento para dia ${formattedDate}`,
-    // });
+    await this.notificationsRepository.create({
+      recipient_id: provider_id,
+      content: `Novo agendamento para dia ${formattedDate}`,
+    });
 
-    // await this.cacheProvider.invalidate(
-    //   `provider-appointments:${provider_id}:${format(
-    //     appointmentDate,
-    //     'yyyy-M-d',
-    //   )}`,
-    // );
+    await this.cacheProvider.invalidate(
+      `provider-appointments:${provider_id}:${format(
+        appointmentDate,
+        'yyyy-M-d',
+      )}`,
+    );
 
     return appointment;
   }

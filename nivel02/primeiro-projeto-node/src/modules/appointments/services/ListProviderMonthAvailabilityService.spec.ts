@@ -1,4 +1,4 @@
-import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
+import FakeAppointmentsRepository from '../../../modules/appointments/repositories/fakes/FakeAppointmentsRepository';
 import ListProviderMonthAvailability from './ListProviderMonthAvailabilityService';
 
 let fakeAppointmentsRepository: FakeAppointmentsRepository;

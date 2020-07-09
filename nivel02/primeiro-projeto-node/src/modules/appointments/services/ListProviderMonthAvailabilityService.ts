@@ -1,6 +1,7 @@
-import { getDate, getDaysInMonth, isAfter } from 'date-fns';
-import { inject, injectable } from 'tsyringe';
-import IAppointmentsRepository from '../repositories/IAppointementsRepository';
+import { injectable, inject } from 'tsyringe';
+import { getDaysInMonth, getDate, isAfter } from 'date-fns';
+
+import IAppointmentsRepository from 'modules/appointments/repositories/IAppointmentsRepository';
 
 interface IRequest {
   provider_id: string;

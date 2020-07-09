@@ -1,27 +1,34 @@
-import { getDate, getMonth, getYear, isEqual } from 'date-fns';
-import ICreateAppointmentDTO from 'modules/appointments/dtos/ICreateAppointmentDTO';
-import IAppointmentsRepository from 'modules/appointments/repositories/IAppointementsRepository';
-import IFindAllInnDayFromProviderDTO from 'modules/users/dtos/IFindAllInDayFromProviderDTO';
-import IFindAllInnMonthFromProviderDTO from 'modules/users/dtos/IFindInAllInMonthFromProviderDTO';
 import { uuid } from 'uuidv4';
+import { isEqual, getMonth, getYear, getDate } from 'date-fns';
+
+import IAppointmentRepository from 'modules/appointments/repositories/IAppointmentsRepository';
+import ICreateAppointmentDTO from 'modules/appointments/dtos/ICreateAppointmentDTO';
+import IFindAllInMonthFromProviderDTO from 'modules/appointments/dtos/IFindAllInMonthFromProviderDTO';
+import IFindAllInDayFromProviderDTO from 'modules/appointments/dtos/IFindAllInDayFromProviderDTO';
+
 import Appointment from '../../infra/typeorm/entities/Appointment';
 
-class AppointmentsRepository implements IAppointmentsRepository {
+class AppointmentsRepository implements IAppointmentRepository {
   private appointments: Appointment[] = [];
 
-  public async findByDate(date: Date): Promise<Appointment | undefined> {
-    const findAppointment = this.appointments.find(appointment =>
-      isEqual(appointment.date, date),
+  public async findByDate(
+    date: Date,
+    provider_id: string,
+  ): Promise<Appointment | undefined> {
+    const findAppointment = this.appointments.find(
+      appointment =>
+        isEqual(appointment.date, date) &&
+        appointment.provider_id === provider_id,
     );
 
     return findAppointment;
   }
 
   public async findAllInMonthFromProvider({
-    month,
     provider_id,
+    month,
     year,
-  }: IFindAllInnMonthFromProviderDTO): Promise<Appointment[]> {
+  }: IFindAllInMonthFromProviderDTO): Promise<Appointment[]> {
     const appointments = this.appointments.filter(
       appointment =>
         appointment.provider_id === provider_id &&
@@ -33,11 +40,11 @@ class AppointmentsRepository implements IAppointmentsRepository {
   }
 
   public async findAllInDayFromProvider({
-    month,
     provider_id,
-    year,
     day,
-  }: IFindAllInnDayFromProviderDTO): Promise<Appointment[]> {
+    month,
+    year,
+  }: IFindAllInDayFromProviderDTO): Promise<Appointment[]> {
     const appointments = this.appointments.filter(
       appointment =>
         appointment.provider_id === provider_id &&
